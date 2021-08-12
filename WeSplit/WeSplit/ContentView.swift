@@ -8,32 +8,54 @@
 import SwiftUI
 
 struct ContentView: View {
-    let users = ["Norne", "Jaten", "Asperin", "Rolyx"]
+    let tipPercentages = [10, 15, 20, 25, 0]
     
-    @State private var tapCount = 0
-    @State private var selected = 0
+    @State private var checkAmountText = ""
+    @State private var numberOfPeople = 2
+    @State private var tipPercentage = 2
+    
+    private var checkAmount: Double {
+        let value = checkAmountText.replacingOccurrences(of: "$", with: "")
+        if let amount = Double(value) {
+            let tipPercent = Double(tipPercentages[tipPercentage]) / 100.0
+            return amount + amount * tipPercent
+        }
+        return 0.0
+    }
+    
+    private var totalPerPerson: Double {
+        checkAmount / Double(numberOfPeople + 2)
+    }
     
     var body: some View {
         NavigationView {
             Form {
-                Section {
-                    Text("Hello, world!")
+                Section(header: Text("Welcome!")) {
+                    Text("You can calculate your shares in this app")
                 }
                 Section {
-                    Button("Tap Count: \(tapCount)") {
-                        tapCount += 1
-                    }
-                }
-                Section {
-                    Picker("Select user", selection: $selected) {
-                        ForEach(0..<users.count) { i in
-                            Text(users[i])
+                    TextField("Amount", text: $checkAmountText)
+                        .keyboardType(.decimalPad)
+                    Picker("Number of people", selection: $numberOfPeople) {
+                        ForEach(2..<100) {
+                            Text("\($0) people")
                         }
                     }
-                    Text("Selected \(users[selected])")
+                }
+                Section(header: Text("How much tip you want to leave?")) {
+                    Picker("Tip percentage", selection: $tipPercentage) {
+                        ForEach(tipPercentages.indices, id: \.self) {
+                            Text("\(tipPercentages[$0])%")
+                        }
+                    }
+                    .pickerStyle(SegmentedPickerStyle())
+                }
+                Section {
+                    Text("Total with tip: $\(checkAmount, specifier: "%.2f")")
+                    Text("Total per person: $\(totalPerPerson, specifier: "%.2f")")
                 }
             }
-            .navigationBarTitle("SwiftUI Test")
+            .navigationBarTitle("WeShare")
         }
     }
 }

@@ -15,13 +15,16 @@ class ViewController: UIViewController {
     @IBOutlet weak var questionLabel: UILabel!
     @IBOutlet weak var progressBar: UIProgressView!
     
-    @IBOutlet weak var trueButton: UIButton!
-    @IBOutlet weak var falseButton: UIButton!
+    @IBOutlet weak var choice1: UIButton!
+    @IBOutlet weak var choice2: UIButton!
+    @IBOutlet weak var choice3: UIButton!
     
     var quizBrain = QuizBrain()
+    var choices: [UIButton]!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        choices = [choice1, choice2, choice3]
         updateUI()
     }
     
@@ -34,18 +37,20 @@ class ViewController: UIViewController {
             sender.backgroundColor = .red
         }
         
+        quizBrain.nextQuestion()
         Timer.scheduledTimer(timeInterval: 0.2, target: self, selector: #selector(updateUI), userInfo: nil, repeats: false)
     }
     
     @objc func updateUI(){
-        quizBrain.nextQuestion()
-        
+
         questionLabel.text = quizBrain.question
         progressBar.progress = quizBrain.progress
         scoreLabel.text = "Score: \(quizBrain.score)"
-        
-        trueButton.backgroundColor = .clear
-        falseButton.backgroundColor = .clear
+    
+        for (answer, choice) in zip(quizBrain.answers, choices) {
+            choice.backgroundColor = .clear
+            choice.setTitle(answer, for: .normal)
+        }
     }
 }
 

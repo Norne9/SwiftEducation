@@ -23,16 +23,26 @@
                                 </constraints>
                             </imageView>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="JC4-V2-Rj0">
-                                <rect key="frame" x="20" y="44" width="374" height="808"/>
+                                <rect key="frame" x="20" y="54" width="374" height="798"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalCompressionResistancePriority="1000" text="Question Text" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rSI-li-mhO">
-                                        <rect key="frame" x="0.0" y="0.0" width="374" height="606.33333333333337"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Kvx-4s-U2o">
+                                        <rect key="frame" x="0.0" y="0.0" width="374" height="22"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="22" id="OsU-ZU-SAK"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalCompressionResistancePriority="1000" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="14" translatesAutoresizingMaskIntoConstraints="NO" id="rSI-li-mhO">
+                                        <rect key="frame" x="0.0" y="42" width="374" height="554.33333333333337"/>
+                                        <string key="text">In London, UK, if you happen to die in the House of Parliament, you are technically entitled to a state funeral, because the building is considered too sacred a place.</string>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="30"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oVw-Hl-IRe">
-                                        <rect key="frame" x="0.0" y="626.33333333333337" width="374" height="70"/>
+                                        <rect key="frame" x="0.0" y="616.33333333333337" width="374" height="70"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="70" id="QEa-OC-c6A"/>
                                         </constraints>
@@ -41,9 +51,12 @@
                                         <state key="normal" title="True" backgroundImage="Rectangle">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
+                                        <connections>
+                                            <action selector="answerButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="wWd-KS-ve4"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tbn-vQ-GyC">
-                                        <rect key="frame" x="0.0" y="716.33333333333337" width="374" height="70"/>
+                                        <rect key="frame" x="0.0" y="706.33333333333337" width="374" height="70"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="70" id="i2g-cL-Tz5"/>
                                         </constraints>
@@ -52,9 +65,12 @@
                                         <state key="normal" title="False" backgroundImage="Rectangle">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
+                                        <connections>
+                                            <action selector="answerButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="XxY-uh-DGT"/>
+                                        </connections>
                                     </button>
                                     <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progressViewStyle="bar" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="TXm-qh-7Xg">
-                                        <rect key="frame" x="0.0" y="806.33333333333337" width="374" height="2.6666666666666288"/>
+                                        <rect key="frame" x="0.0" y="796.33333333333337" width="374" height="2.6666666666666288"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <color key="tintColor" red="0.2770131528" green="0.3800790906" blue="0.57570761439999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <color key="progressTintColor" red="1" green="0.45854175089999999" blue="0.6605013609" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -69,12 +85,19 @@
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="JC4-V2-Rj0" secondAttribute="trailing" constant="20" id="12w-Mc-6E0"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="JC4-V2-Rj0" secondAttribute="bottom" constant="10" id="5AO-3c-Cin"/>
                             <constraint firstAttribute="bottom" secondItem="eGL-jB-Wwb" secondAttribute="bottom" id="DmY-kC-cBg"/>
-                            <constraint firstItem="JC4-V2-Rj0" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="VfY-84-TVw"/>
+                            <constraint firstItem="JC4-V2-Rj0" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="10" id="VfY-84-TVw"/>
                             <constraint firstAttribute="trailing" secondItem="eGL-jB-Wwb" secondAttribute="trailing" id="ptN-UQ-hFZ"/>
                             <constraint firstItem="eGL-jB-Wwb" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="s1G-6d-a4y"/>
                             <constraint firstItem="JC4-V2-Rj0" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="xWM-Bd-WZT"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="falseButton" destination="tbn-vQ-GyC" id="wWS-wq-Vxd"/>
+                        <outlet property="progressBar" destination="TXm-qh-7Xg" id="g0u-DJ-y4y"/>
+                        <outlet property="questionLabel" destination="rSI-li-mhO" id="RQk-oU-7SW"/>
+                        <outlet property="scoreLabel" destination="Kvx-4s-U2o" id="X1C-gD-zJb"/>
+                        <outlet property="trueButton" destination="oVw-Hl-IRe" id="H9L-Ia-c8Y"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>

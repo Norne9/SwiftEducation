@@ -8,50 +8,64 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State private var count: [Int] = [Int](repeating: 0, count: 3)
-    @State private var showingAlert = false
+    @State private var countries = ["Estonia", "France", "Germany", "Ireland", "Italy", "Nigeria", "Poland", "Russia", "Spain", "UK", "US"].shuffled()
+    @State private var correctAnswer = Int.random(in: 0...2)
+    @State private var showingScore = false
+    @State private var scoreTitle = ""
+    @State private var scoreText = ""
+    @State private var score = 0
     
     var body: some View {
         ZStack {
-            //LinearGradient(gradient: Gradient(colors: [.gray, .black]), startPoint: .top, endPoint: .bottom)
-            AngularGradient(gradient: Gradient(stops: [Gradient.Stop(color: .gray, location: 0),
-                                                       Gradient.Stop(color: .black, location: 0.26)]),
-                            center: .topLeading)
+            LinearGradient(gradient: Gradient(colors: [Color.blue, Color.black]), startPoint: .top, endPoint: .bottom)
                 .edgesIgnoringSafeArea(.all)
-            VStack(spacing: 20) {
-                ForEach(0..<3) { i in
+            VStack(spacing: 30) {
+                VStack {
+                    Text("Tap the flag of")
+                    Text(countries[correctAnswer])
+                        .font(.largeTitle)
+                        .fontWeight(.black)
+                }
+                ForEach(0..<3) {num in
                     Button {
-                        count[i] += 1
+                        self.flagTapped(num)
                     } label: {
-                        ZStack {
-                            //Color.red.frame(width: 100, height: 100)
-                            RadialGradient(gradient: Gradient(colors: [Color.red, Color.blue]),
-                                           center: .center,
-                                           startRadius: 10, endRadius: CGFloat(70 - count[i]))
-                                .frame(width: 100, height: 100)
-                            Text("\(count[i])")
-                                .accentColor(.black)
-                        }
+                        Image(countries[num])
+                            .renderingMode(.original)
+                            .clipShape(Capsule())
+                            .overlay(Capsule().stroke(Color.black, lineWidth: 1.0))
+                            .shadow(color: .black, radius: 2)
                     }
                 }
-                Button {
-                    showingAlert = true
-                    for i in count.indices {
-                        count[i] = 0
-                    }
-                } label: {
-                    HStack {
-                        Image(systemName: "pencil")
-                        Text("Reset")
-                    }
-                }
+                Text("Score: \(score)")
+                Spacer()
             }
+            .foregroundColor(.white)
         }
-        .alert(isPresented: $showingAlert) {
-            Alert(title: Text("Hello SwiftUI!"),
-                  message: Text("Counters were reverted to zero!"),
-                  dismissButton: .default(Text("OK")))
+        .alert(isPresented: $showingScore) {
+            Alert(title: Text(scoreTitle),
+                  message: Text(scoreText),
+                  dismissButton: .default(Text("Continue")) {
+                    self.askQuestion()
+                  })
         }
+    }
+    
+    func flagTapped(_ number: Int) {
+        if correctAnswer == number {
+            scoreTitle = "Correct"
+            score += 1
+            scoreText = "Your score is \(score)"
+        } else {
+            scoreTitle = "Wrong"
+            scoreText = "That was the flag of \(countries[number])"
+        }
+        showingScore = true
+    }
+    
+    func askQuestion() {
+        countries.shuffle()
+        correctAnswer = Int.random(in: 0...2)
     }
 }
 

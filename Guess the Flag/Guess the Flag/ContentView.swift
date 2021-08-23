@@ -30,11 +30,7 @@ struct ContentView: View {
                     Button {
                         self.flagTapped(num)
                     } label: {
-                        Image(countries[num])
-                            .renderingMode(.original)
-                            .clipShape(Capsule())
-                            .overlay(Capsule().stroke(Color.black, lineWidth: 1.0))
-                            .shadow(color: .black, radius: 2)
+                        FlagImage(image: countries[num])
                     }
                 }
                 Text("Score: \(score)")

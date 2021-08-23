@@ -27,6 +27,10 @@ struct ContentView: View {
         checkAmount / Double(numberOfPeople + 2)
     }
     
+    private var isZeroTip: Bool {
+        tipPercentages[tipPercentage] == 0
+    }
+    
     var body: some View {
         NavigationView {
             Form {
@@ -52,6 +56,7 @@ struct ContentView: View {
                 }
                 Section {
                     Text("Total with tip: $\(checkAmount, specifier: "%.2f")")
+                        .foregroundColor(isZeroTip ? .red : .primary)
                     Text("Total per person: $\(totalPerPerson, specifier: "%.2f")")
                 }
             }

@@ -8,18 +8,10 @@
 import SwiftUI
 import CoreML
 
-struct AlertData {
-    var showing: Bool = false
-    var title: String = ""
-    var message: String = ""
-}
-
 struct ContentView: View {
     @State private var sleepAmount = 8.0
     @State private var wakeUp = defaultWakeTime
-    @State private var coffeAmount = 1
-    
-    @State private var alert = AlertData()
+    @State private var coffeIndex = 0
     
     let model = try! SleepCalculator(configuration: MLModelConfiguration())
     
@@ -27,6 +19,28 @@ struct ContentView: View {
         let hours = Int(floor(sleepAmount))
         let minutes = Int((sleepAmount - Double(hours)) * 60.0)
         return "\(hours) hours \(minutes) minutes"
+    }
+    
+    var idealBedTime: String {
+        let timeComponents = Calendar.current.dateComponents([.hour, .minute], from: wakeUp)
+        let hour = (timeComponents.hour ?? 0) * 60 * 60
+        let minute = (timeComponents.minute ?? 0) * 60
+        do {
+            let prediction = try model.prediction(wake: Double(hour + minute),
+                                                  estimatedSleep: sleepAmount,
+                                                  coffee: Double(coffeIndex + 1))
+            let sleepTime = wakeUp - prediction.actualSleep
+            
+            let dateFormatter = DateFormatter()
+            dateFormatter.timeStyle = .short
+            
+            return dateFormatter.string(from: sleepTime)
+        } catch {
+            return """
+                Error
+                \(error)
+                """
+        }
     }
     
     static var defaultWakeTime: Date {
@@ -52,47 +66,30 @@ struct ContentView: View {
                 }
                 
                 Section(header: Text("Daily coffe intake")) {
-                    Stepper(value: $coffeAmount, in: 1...20) {
-                        if coffeAmount == 1 {
-                            Text("1 cup")
-                        } else {
-                            Text("\(coffeAmount) cups")
+                    Picker("Daily coffe intake", selection: $coffeIndex) {
+                        ForEach(1..<21) { cup in
+                            if cup == 1 {
+                                Text("1 cup")
+                            } else {
+                                Text("\(cup) cups")
+                            }
                         }
                     }
+                    .pickerStyle(InlinePickerStyle())
+                }
+                
+                Section(header: Text("Your ideal bedtime")) {
+                    Text(idealBedTime)
+                        .font(.largeTitle)
                 }
             }
             .navigationBarTitle("Better Rest")
-            .navigationBarItems(trailing: Button(action: calculateBedtime) {
-                Text("Calculate")
-            })
         }
         .navigationViewStyle(StackNavigationViewStyle())
-        .alert(isPresented: $alert.showing, content: {
-            Alert(title: Text(alert.title), message: Text(alert.message), dismissButton: .default(Text("Ok")))
-        })
     }
     
     func calculateBedtime() {
-        let timeComponents = Calendar.current.dateComponents([.hour, .minute], from: wakeUp)
-        let hour = (timeComponents.hour ?? 0) * 60 * 60
-        let minute = (timeComponents.minute ?? 0) * 60
-        do {
-            let prediction = try model.prediction(wake: Double(hour + minute),
-                                                  estimatedSleep: sleepAmount,
-                                                  coffee: Double(coffeAmount))
-            let sleepTime = wakeUp - prediction.actualSleep
-            
-            let dateFormatter = DateFormatter()
-            dateFormatter.timeStyle = .short
-            
-            alert = AlertData(showing: true, title: "Your ideal bed time is",
-                              message: dateFormatter.string(from: sleepTime))
-        } catch {
-            alert = AlertData(showing: true, title: "Error", message: """
-                There was an error with your prediction:
-                \(error)
-                """)
-        }
+        
         
     }
 }
